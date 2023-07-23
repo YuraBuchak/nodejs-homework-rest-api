@@ -6,8 +6,14 @@ const contactAddSchema = Joi.object({
   phone: Joi.string()
     .pattern(/^\(\d{3}\) \d{3}-\d{4}$/)
     .required(),
+  favorite: Joi.boolean(),
+});
+
+const contactUpdateFavoriteSchema = Joi.object({
+  favorite: Joi.boolean().required(),
 });
 
 export default {
   contactAddSchema,
+  contactUpdateFavoriteSchema,
 };
