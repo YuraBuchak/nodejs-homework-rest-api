@@ -2,8 +2,16 @@ import { HttpError } from "../helpers/index.js";
 import { controllerWrapper } from "../decorators/index.js";
 import Contact from "../models/contact.js";
 
+// (GET /contacts?page=1&limit=20)
+
 const getAllContacts = async (req, res) => {
-  const listContacts = await Contact.find();
+  const { _id: owner } = req.user;
+  const { page = 1, limit = 20 } = req.query;
+  const skip = (page - 1) * limit;
+  const listContacts = await Contact.find({ owner }, "-createdAt -updatedAt", {
+    skip,
+    limit,
+  }).populate("owner", "email");
   res.json(listContacts);
 };
 
@@ -19,7 +27,8 @@ const getContactById = async (req, res) => {
 };
 
 const addContact = async (req, res) => {
-  const addContact = await Contact.create(req.body);
+  const { _id: owner } = req.user;
+  const addContact = await Contact.create({ ...req.body, owner });
   res.status(201).json(addContact);
 };
 
