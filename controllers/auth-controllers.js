@@ -63,9 +63,16 @@ const logout = async (req, res) => {
   res.status(204).json({ message: "No Content" });
 };
 
+const updateSubscription = async (req, res) => {
+  const { _id } = req.user;
+  await User.findByIdAndUpdate(_id, req.body);
+  res.json({ message: "User subscription is updated " });
+};
+
 export default {
   singup: controllerWrapper(singup),
   singin: controllerWrapper(singin),
   getCurrent: controllerWrapper(getCurrent),
   logout: controllerWrapper(logout),
+  updateSubscription: controllerWrapper(updateSubscription),
 };
