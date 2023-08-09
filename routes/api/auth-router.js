@@ -2,7 +2,7 @@ import express from "express";
 import { validateBody } from "../../decorators/index.js";
 import usersSchemas from "../../schemas/users-schemas.js";
 import authControllers from "../../controllers/auth-controllers.js";
-import { authenticate } from "../../middlewares/index.js";
+import { upload, authenticate } from "../../middlewares/index.js";
 
 const authRouter = express.Router();
 
@@ -10,6 +10,13 @@ authRouter.post(
   "/register",
   validateBody(usersSchemas.userSignupSchema),
   authControllers.singup
+);
+
+authRouter.patch(
+  "/avatars",
+  authenticate,
+  upload.single("avatar"),
+  authControllers.updateAvatar
 );
 
 authRouter.post(
