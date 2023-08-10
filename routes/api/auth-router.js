@@ -12,6 +12,13 @@ authRouter.post(
   authControllers.singup
 );
 
+authRouter.get("/verify/:verificationToken", authControllers.verify);
+authRouter.post(
+  "/verify",
+  validateBody(usersSchemas.userEmailSchema),
+  authControllers.resendVerify
+);
+
 authRouter.patch(
   "/avatars",
   authenticate,
