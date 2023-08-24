@@ -17,8 +17,13 @@ const userUpdateStatusSchema = Joi.object({
     .default("starter"),
 });
 
+const userEmailSchema = Joi.object({
+  email: Joi.string().email().required(),
+});
+
 export default {
   userSignupSchema,
   userSigninSchema,
   userUpdateStatusSchema,
+  userEmailSchema,
 };
